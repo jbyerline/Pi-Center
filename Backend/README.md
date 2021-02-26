@@ -1,1 +1,3 @@
-# SSH_Connected_UI
+# Springboot API
+
+This folder contains the Springboot API Project
