@@ -1,1 +1,3 @@
-# SSH_Connected_UI
+# Raspberry PI Scripts
+
+This repo holds any RPI scripts we make.
