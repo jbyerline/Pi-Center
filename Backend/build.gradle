@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.jbyerline'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '15'
+sourceCompatibility = '14'
 
 repositories {
 	mavenCentral()
@@ -21,6 +21,7 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.codehaus.groovy:groovy'
+	implementation 'com.jcraft:jsch:0.1.54'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
