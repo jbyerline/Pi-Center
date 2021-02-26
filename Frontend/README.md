@@ -1,1 +1,3 @@
-# SSH_Connected_UI
+# Frontend
+
+This folder will contain all frontend files. Current framework unknown. Maybe Angular or Bootstrap?
