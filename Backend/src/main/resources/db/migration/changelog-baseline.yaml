@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: jbyerline
+      comment: Creates initial table
+      changes:
+        - createTable:
+            schemaName: ssh_webapp
+            tableName: known_hosts
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: host_address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: port
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+        - addPrimaryKey:
+            clustered: true
+            columnNames: id
+            tableName: known_hosts
+            schemaName: ssh_webapp

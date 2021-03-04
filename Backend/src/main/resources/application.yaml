@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+
+---
+spring:
+  datasource:
+    url: 'jdbc:mysql://byerline.me:3003/ssh_webapp'
+    username: 'root'
+    password: 'adiumDB'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  thymeleaf:
+    enabled: true
+
