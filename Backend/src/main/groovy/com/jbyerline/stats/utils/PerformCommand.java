@@ -2,13 +2,20 @@ package com.jbyerline.stats.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+
+import com.jbyerline.stats.domains.ConnectionDomain;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
 public class PerformCommand {
 
-    public String executeCommands(String username, String password, String host, int port, List<String> command) throws Exception {
+    public String executeCommands(ConnectionDomain connectionDomain, List<String> command) throws Exception {
+
+        String username = connectionDomain.getUsername();
+        String password = connectionDomain.getPassword();
+        String host = connectionDomain.getIpAddress();
+        int port = connectionDomain.getPort();
 
         // Declare local variables
         Session session = null;

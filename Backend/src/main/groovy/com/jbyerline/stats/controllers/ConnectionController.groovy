@@ -1,9 +1,11 @@
 package com.jbyerline.stats.controllers
 
 import com.jbyerline.stats.domains.ConnectionDomain
-import com.jbyerline.stats.domains.HostDomain
+
 import com.jbyerline.stats.dtos.CPUStatsDTO
-import com.jbyerline.stats.services.ConnectionService
+import com.jbyerline.stats.dtos.RAMStatsDTO
+import com.jbyerline.stats.dtos.StorageStatsDTO
+import com.jbyerline.stats.services.StatsService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -18,47 +20,58 @@ import org.springframework.web.bind.annotation.RestController
 class ConnectionController {
 
     @Autowired
-    ConnectionService connectionService
+    StatsService statsService
 
     /**
-     * POST - create SSH connection with given credentials
+     * POST - Get CPU stats for given host
      * @requestBody JSON SSH Credentials
      * @param ConnectionDomain
      * @return CPUStatsDTO
      */
-    @PostMapping(value = '/connect', produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = '/stats/cpu', produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    CPUStatsDTO connect(@RequestBody ConnectionDomain connectionDomain) {
-        log.info "Attempting to connect to $connectionDomain.ipAddress"
-        connectionService.createConnection(connectionDomain)
+    CPUStatsDTO cpu(@RequestBody ConnectionDomain connectionDomain) {
+        log.info "Getting CPU Stats from $connectionDomain.ipAddress"
+        statsService.getCpuStats(connectionDomain)
     }
 
     /**
-     * POST - adds host to file of known hosts
-     * @requestBody JSON Host Credentials
-     * @param HostDomain
-     * @return String host IP
+     * POST - Get Storage stats for given host
+     * @requestBody JSON SSH Credentials
+     * @param ConnectionDomain
+     * @return StorageStatsDTO
      */
-    @PostMapping(value = '/addKnownHost', produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = '/stats/storage', produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    void addKnownHost(@RequestBody HostDomain hostDomain) {
-        log.info "Saving Host: $hostDomain.ipAddress"
-        connectionService.addKnownHost(hostDomain)
+    StorageStatsDTO storage(@RequestBody ConnectionDomain connectionDomain) {
+        log.info "Getting Storage Stats from $connectionDomain.ipAddress"
+        statsService.getStorageStats(connectionDomain)
     }
 
     /**
-     * POST - Starts session with IP
-     * @requestBody JSON String IP (host)
-     * @param String IP
-     * @return boolean
+     * POST - Get RAM stats for given host
+     * @requestBody JSON SSH Credentials
+     * @param ConnectionDomain
+     * @return RAMStatsDTO
      */
-    @PostMapping(value = '/createSession', produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = '/stats/ram', produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    boolean createSession(@RequestBody String ip) {
-        log.info "Creating session for: $ip"
-        connectionService.createSession(ip)
+    RAMStatsDTO ram(@RequestBody ConnectionDomain connectionDomain) {
+        log.info "Getting RAM Stats from $connectionDomain.ipAddress"
+        statsService.getRamStats(connectionDomain)
     }
 
-
+    /**
+     * POST - Get RAM stats for given host
+     * @requestBody JSON SSH Credentials
+     * @param ConnectionDomain
+     * @return RAMStatsDTO
+     */
+    @PostMapping(value = '/stats/hardwareInfo', produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    String hardware(@RequestBody ConnectionDomain connectionDomain) {
+        log.info "Getting HW info from $connectionDomain.ipAddress"
+        statsService.getHardwareInfo(connectionDomain)
+    }
 
 }

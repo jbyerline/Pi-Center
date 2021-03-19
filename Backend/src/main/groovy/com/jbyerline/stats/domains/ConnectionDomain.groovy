@@ -9,6 +9,4 @@ class ConnectionDomain {
     int port
 
     String password
-
-    List<String> commands
 }
