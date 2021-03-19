@@ -3,6 +3,7 @@ package com.jbyerline.stats.controllers
 import com.jbyerline.stats.domains.ConnectionDomain
 
 import com.jbyerline.stats.dtos.CPUStatsDTO
+import com.jbyerline.stats.dtos.ProcessDTO
 import com.jbyerline.stats.dtos.RAMStatsDTO
 import com.jbyerline.stats.dtos.StorageStatsDTO
 import com.jbyerline.stats.services.StatsService
@@ -72,6 +73,19 @@ class ConnectionController {
     String hardware(@RequestBody ConnectionDomain connectionDomain) {
         log.info "Getting HW info from $connectionDomain.ipAddress"
         statsService.getHardwareInfo(connectionDomain)
+    }
+
+    /**
+     * POST - Get Process info for given host
+     * @requestBody JSON SSH Credentials
+     * @param ConnectionDomain
+     * @return RAMStatsDTO
+     */
+    @PostMapping(value = '/stats/process', produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    ProcessDTO process(@RequestBody ConnectionDomain connectionDomain) {
+        log.info "Getting Process info from $connectionDomain.ipAddress"
+        statsService.getProcessInfo(connectionDomain)
     }
 
 }

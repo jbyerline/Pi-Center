@@ -2,6 +2,7 @@ package com.jbyerline.stats.services
 
 import com.jbyerline.stats.domains.ConnectionDomain
 import com.jbyerline.stats.dtos.CPUStatsDTO
+import com.jbyerline.stats.dtos.ProcessDTO
 import com.jbyerline.stats.dtos.StorageStatsDTO
 import com.jbyerline.stats.utils.PerformCommand
 import groovy.util.logging.Slf4j
@@ -79,5 +80,20 @@ class StatsService {
         log.info(jsonPrettyPrintString)
 
         return jsonPrettyPrintString
+    }
+
+    ProcessDTO getProcessInfo(ConnectionDomain connectionDomain){
+
+        List<String> commandList = ["top -b -n 1 > top.txt", "cat top.txt"]
+
+        String response = performer.executeCommands(connectionDomain, commandList)
+
+        log.info(response)
+
+        ProcessDTO processDTO = new ProcessDTO()
+
+        processDTO.cpuPercentageFree = 17.65
+
+        return processDTO
     }
 }
