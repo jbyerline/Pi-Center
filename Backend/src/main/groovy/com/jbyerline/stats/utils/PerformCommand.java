@@ -35,6 +35,8 @@ public class PerformCommand {
             for (int i = 0; i < command.size(); i++) {
                 // Execute each command
                 channel = (ChannelExec) session.openChannel("exec");
+                // Enable for SUDO
+                //channel.setPty(true);
                 channel.setCommand(command.get(i));
                 // Set up ByteArray to collect results
                 ByteArrayOutputStream responseStream = new ByteArrayOutputStream();

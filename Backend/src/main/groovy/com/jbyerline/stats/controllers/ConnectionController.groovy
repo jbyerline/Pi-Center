@@ -4,7 +4,7 @@ import com.jbyerline.stats.domains.ConnectionDomain
 
 import com.jbyerline.stats.dtos.CPUStatsDTO
 import com.jbyerline.stats.dtos.ProcessDTO
-import com.jbyerline.stats.dtos.RAMStatsDTO
+
 import com.jbyerline.stats.dtos.StorageStatsDTO
 import com.jbyerline.stats.services.StatsService
 import groovy.util.logging.Slf4j
@@ -50,23 +50,10 @@ class ConnectionController {
     }
 
     /**
-     * POST - Get RAM stats for given host
+     * POST - Get Hw info for given host
      * @requestBody JSON SSH Credentials
      * @param ConnectionDomain
-     * @return RAMStatsDTO
-     */
-    @PostMapping(value = '/stats/ram', produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    RAMStatsDTO ram(@RequestBody ConnectionDomain connectionDomain) {
-        log.info "Getting RAM Stats from $connectionDomain.ipAddress"
-        statsService.getRamStats(connectionDomain)
-    }
-
-    /**
-     * POST - Get RAM stats for given host
-     * @requestBody JSON SSH Credentials
-     * @param ConnectionDomain
-     * @return RAMStatsDTO
+     * @return String
      */
     @PostMapping(value = '/stats/hardwareInfo', produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -87,5 +74,7 @@ class ConnectionController {
         log.info "Getting Process info from $connectionDomain.ipAddress"
         statsService.getProcessInfo(connectionDomain)
     }
+
+    // TODO: Create call to execute any command and return unparsed response. (No Sudo Commands)
 
 }
