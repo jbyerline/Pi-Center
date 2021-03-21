@@ -2,5 +2,11 @@ package com.jbyerline.stats.dtos
 
 class CPUStatsDTO {
 
-    String cpuTemp
+    List<Float> cpuTemp
+
+    Float cpuUsagePercentage
+
+    Integer cpuCoreCount
+
+    String cpuArchitecture
 }

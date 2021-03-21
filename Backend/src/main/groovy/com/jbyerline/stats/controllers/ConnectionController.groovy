@@ -44,7 +44,7 @@ class ConnectionController {
      */
     @PostMapping(value = '/stats/storage', produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    StorageStatsDTO storage(@RequestBody ConnectionDomain connectionDomain) {
+    List<StorageStatsDTO> storage(@RequestBody ConnectionDomain connectionDomain) {
         log.info "Getting Storage Stats from $connectionDomain.ipAddress"
         statsService.getStorageStats(connectionDomain)
     }

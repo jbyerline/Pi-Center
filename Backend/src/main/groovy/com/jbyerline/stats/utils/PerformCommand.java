@@ -1,6 +1,7 @@
 package com.jbyerline.stats.utils;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jbyerline.stats.domains.ConnectionDomain;
@@ -10,7 +11,7 @@ import com.jcraft.jsch.Session;
 
 public class PerformCommand {
 
-    public String executeCommands(ConnectionDomain connectionDomain, List<String> command) throws Exception {
+    public ArrayList<String> executeCommands(ConnectionDomain connectionDomain, List<String> command) throws Exception {
 
         String username = connectionDomain.getUsername();
         String password = connectionDomain.getPassword();
@@ -20,7 +21,7 @@ public class PerformCommand {
         // Declare local variables
         Session session = null;
         ChannelExec channel = null;
-        StringBuilder response = new StringBuilder();
+        ArrayList<String>  response = new ArrayList<>();
 
         // Try to perform command
         try {
@@ -44,10 +45,10 @@ public class PerformCommand {
                     Thread.sleep(100);
                 }
                 // Append command output to string
-                response.append(responseStream.toString());
+                response.add(responseStream.toString());
             }
             // Return response data
-            return response.toString();
+            return response;
         }
         // Otherwise disconnect
         finally {

@@ -2,7 +2,15 @@ package com.jbyerline.stats.dtos
 
 class StorageStatsDTO {
 
-    int numberOfDrives
+    String fileSystemName
 
-    List<DriveDTO> drives
+    String totalSize
+
+    String amountUsed
+
+    String amountAvailable
+
+    String percentageUsed
+
+    String mountPath
 }
