@@ -1,5 +1,6 @@
 package com.jbyerline.stats.services
 
+import com.jbyerline.stats.domains.CommandDomain
 import com.jbyerline.stats.domains.ConnectionDomain
 import com.jbyerline.stats.dtos.CPUStatsDTO
 
@@ -100,6 +101,18 @@ class StatsService {
 
         // Return Response
         return response.get(0)
+    }
+
+    List<String> executeCommand(CommandDomain commandDomain){
+        ConnectionDomain cd = new ConnectionDomain()
+        cd.username = commandDomain.username
+        cd.ipAddress = commandDomain.ipAddress
+        cd.password = commandDomain.password
+        cd.port = commandDomain.port
+
+        List<String> response = performer.executeCommands(cd, commandDomain.commands)
+
+        return response
     }
 
     ProcessDTO getProcessInfo(ConnectionDomain connectionDomain){
