@@ -1,5 +1,6 @@
 package com.jbyerline.stats.services
 
+import com.jbyerline.stats.domains.CommandDomain
 import com.jbyerline.stats.domains.ConnectionDomain
 import com.jbyerline.stats.dtos.CPUStatsDTO
 
