@@ -124,12 +124,12 @@ class StatsService {
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
 
-        processDTO.numOfUsers = splitArr0[7]
-        processDTO.numOfTasks = splitArr1[1]
-        processDTO.cpuPercentageUsed = splitArr2[1] //user space time
-        processDTO.cpuPercentageFree = splitArr2[7] //idle time
-        processDTO.memoryTotal = splitArr3[3]
-        processDTO.memoryFree = splitArr3[5]
+        processDTO.numOfUsers = Integer.parseInt(splitArr0[7].substring(1))
+        processDTO.numOfTasks = Integer.parseInt(splitArr1[1].substring(1))
+        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr2[1]) //user space time
+        processDTO.cpuPercentageFree = Float.parseFloat(splitArr2[7]) //idle time
+        processDTO.memoryTotal = Float.parseFloat(splitArr3[3])
+        processDTO.memoryFree = Float.parseFloat(splitArr3[5])
 
         // Create an empty list to store process list
         List<TopProcess> processList = []
@@ -141,10 +141,10 @@ class StatsService {
 
             // Create and append objects with each process info
             TopProcess topProcess = new TopProcess()
-            topProcess.PID = splitArr[0]
+            topProcess.PID = Integer.parseInt(splitArr[0])
             topProcess.user = splitArr[1]
-            topProcess.cpuUsagePercent = splitArr[8]
-            topProcess.memUsagePercent = splitArr[9]
+            topProcess.cpuUsagePercent = Float.parseFloat(splitArr[8])
+            topProcess.memUsagePercent = Float.parseFloat(splitArr[9])
             topProcess.processUpTime = splitArr[10]
             topProcess.processCommandName = splitArr[11]
 
