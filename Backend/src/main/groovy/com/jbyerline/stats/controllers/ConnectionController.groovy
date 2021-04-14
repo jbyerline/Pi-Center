@@ -1,10 +1,9 @@
 package com.jbyerline.stats.controllers
 
+import com.jbyerline.stats.domains.CommandDomain
 import com.jbyerline.stats.domains.ConnectionDomain
-
 import com.jbyerline.stats.dtos.CPUStatsDTO
 import com.jbyerline.stats.dtos.ProcessDTO
-
 import com.jbyerline.stats.dtos.StorageStatsDTO
 import com.jbyerline.stats.services.StatsService
 import groovy.util.logging.Slf4j
@@ -66,7 +65,7 @@ class ConnectionController {
      * POST - Get Process info for given host
      * @requestBody JSON SSH Credentials
      * @param ConnectionDomain
-     * @return RAMStatsDTO
+     * @return ProcessDTO
      */
     @PostMapping(value = '/stats/process', produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -75,6 +74,16 @@ class ConnectionController {
         statsService.getProcessInfo(connectionDomain)
     }
 
-    // TODO: Create call to execute any command and return unparsed response. (No Sudo Commands)
-
+    /**
+     * POST - Execute a given command for given host
+     * @requestBody JSON SSH Credentials + Command
+     * @param CommandDomain
+     * @return String (Command Response)
+     */
+    @PostMapping(value = '/stats/command', produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    List<String> command(@RequestBody CommandDomain commandDomain) {
+        log.info "Executing given commands on $commandDomain.ipAddress"
+        statsService.executeCommand(commandDomain)
+    }
 }
