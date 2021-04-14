@@ -5,6 +5,7 @@ import com.jbyerline.stats.dtos.CPUStatsDTO
 
 import com.jbyerline.stats.dtos.ProcessDTO
 import com.jbyerline.stats.dtos.StorageStatsDTO
+import com.jbyerline.stats.dtos.TopProcess
 import com.jbyerline.stats.utils.PerformCommand
 import groovy.util.logging.Slf4j
 import org.springframework.stereotype.Service
@@ -102,17 +103,56 @@ class StatsService {
         return response.get(0)
     }
 
+    /**
+     * Get Process Information
+     * @param connectionDomain
+     * @return ProcessDTO
+     */
     ProcessDTO getProcessInfo(ConnectionDomain connectionDomain){
 
         List<String> commandList = ["top -b -n 1 > top.txt", "cat top.txt"]
 
         List<String> response = performer.executeCommands(connectionDomain, commandList)
 
-        log.info(response.get(0))
+        // Split response lines by whitespace
+        String[] splitArr0 = response.get(0).split("\\s+")
+        String[] splitArr1 = response.get(1).split("\\s+")
+        String[] splitArr2 = response.get(2).split("\\s+")
+        String[] splitArr3 = response.get(3).split("\\s+")
 
+        // Create response object
         ProcessDTO processDTO = new ProcessDTO()
 
-        processDTO.cpuPercentageFree = 17.65
+
+        processDTO.numOfUsers = Integer.parseInt(splitArr0[7].substring(1))
+        processDTO.numOfTasks = Integer.parseInt(splitArr1[1].substring(1))
+        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr2[1]) //user space time
+        processDTO.cpuPercentageFree = Float.parseFloat(splitArr2[7]) //idle time
+        processDTO.memoryTotal = Float.parseFloat(splitArr3[3])
+        processDTO.memoryFree = Float.parseFloat(splitArr3[5])
+
+
+        // Create an empty list to store process list
+        List<TopProcess> processList = []
+
+        // Loop through each process list
+        for(int i= 7; i<response.length; i++){
+            // Split response lines by whitespace
+            String[] splitArr = response.get(i).split("\\s+")
+
+            // Create and append objects with each process info
+            TopProcess topProcess = new TopProcess()
+            topProcess.PID = Integer.parseInt(splitArr[0])
+            topProcess.user = splitArr[1]
+            topProcess.cpuUsagePercent = Float.parseFloat(splitArr[8])
+            topProcess.memUsagePercent = Float.parseFloat(splitArr[9])
+            topProcess.processUpTime = splitArr[10]
+            topProcess.processCommandName = splitArr[11]
+
+            // Append each object to the list
+            processList.add(topProcess)
+        }
+        processDTO.ProcessList = processList
 
         return processDTO
     }
