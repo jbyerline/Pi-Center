@@ -1,5 +1,6 @@
 package com.jbyerline.stats.services
 
+import com.jbyerline.stats.domains.CommandDomain
 import com.jbyerline.stats.domains.ConnectionDomain
 import com.jbyerline.stats.dtos.CPUStatsDTO
 
@@ -123,14 +124,12 @@ class StatsService {
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
 
-
         processDTO.numOfUsers = Integer.parseInt(splitArr0[7].substring(1))
         processDTO.numOfTasks = Integer.parseInt(splitArr1[1].substring(1))
         processDTO.cpuPercentageUsed = Float.parseFloat(splitArr2[1]) //user space time
         processDTO.cpuPercentageFree = Float.parseFloat(splitArr2[7]) //idle time
         processDTO.memoryTotal = Float.parseFloat(splitArr3[3])
         processDTO.memoryFree = Float.parseFloat(splitArr3[5])
-
 
         // Create an empty list to store process list
         List<TopProcess> processList = []
