@@ -129,37 +129,35 @@ class StatsService {
         List<String> response = performer.executeCommands(connectionDomain, commandList)
 
         // Split response lines by whitespace
-        String[] splitArr0 = response.get(0).split("\\s+")
         String[] splitArr1 = response.get(1).split("\\s+")
-        String[] splitArr2 = response.get(2).split("\\s+")
-        String[] splitArr3 = response.get(3).split("\\s+")
 
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
-
-        processDTO.numOfUsers = splitArr0[7]
-        processDTO.numOfTasks = splitArr1[1]
-        processDTO.cpuPercentageUsed = splitArr2[1] //user space time
-        processDTO.cpuPercentageFree = splitArr2[7] //idle time
-        processDTO.memoryTotal = splitArr3[3]
-        processDTO.memoryFree = splitArr3[5]
+        processDTO.numOfUsers = Integer.parseInt(splitArr1[5])
+        processDTO.numOfTasks = Integer.parseInt(splitArr1[13])
+        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[24]) //user space time
+        processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[30]) //idle time
+        processDTO.memoryTotal = Float.parseFloat(splitArr1[43])
+        processDTO.memoryFree = Float.parseFloat(splitArr1[45])
+        processDTO.memoryUsed = Float.parseFloat(splitArr1[47])
 
         // Create an empty list to store process list
         List<TopProcess> processList = []
 
         // Loop through each process list
-        for(int i= 7; i<response.length; i++){
-            // Split response lines by whitespace
-            String[] splitArr = response.get(i).split("\\s+")
-
+        for(int i= 74; i<splitArr1.length; i=i+12){
+            //special case: command is 2 words (usually just 1)
+            if(splitArr1[i] == "Notif+"){
+                i+=1
+            }
             // Create and append objects with each process info
             TopProcess topProcess = new TopProcess()
-            topProcess.PID = splitArr[0]
-            topProcess.user = splitArr[1]
-            topProcess.cpuUsagePercent = splitArr[8]
-            topProcess.memUsagePercent = splitArr[9]
-            topProcess.processUpTime = splitArr[10]
-            topProcess.processCommandName = splitArr[11]
+            topProcess.PID = Integer.parseInt(splitArr1[i])
+            topProcess.user = splitArr1[i+1]
+            topProcess.cpuUsagePercent = Float.parseFloat(splitArr1[i+8])
+            topProcess.memUsagePercent = Float.parseFloat(splitArr1[i+9])
+            topProcess.processUpTime = splitArr1[i+10]
+            topProcess.processCommandName = splitArr1[i+11]
 
             // Append each object to the list
             processList.add(topProcess)
