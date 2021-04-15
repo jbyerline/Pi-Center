@@ -116,42 +116,56 @@ class StatsService {
         List<String> response = performer.executeCommands(connectionDomain, commandList)
 
         // Split response lines by whitespace
-        String[] splitArr0 = response.get(0).split("\\s+")
         String[] splitArr1 = response.get(1).split("\\s+")
-        String[] splitArr2 = response.get(2).split("\\s+")
-        String[] splitArr3 = response.get(3).split("\\s+")
+        println(splitArr1)
 
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
 
-        processDTO.numOfUsers = Integer.parseInt(splitArr0[7].substring(1))
-        processDTO.numOfTasks = Integer.parseInt(splitArr1[1].substring(1))
-        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr2[1]) //user space time
-        processDTO.cpuPercentageFree = Float.parseFloat(splitArr2[7]) //idle time
-        processDTO.memoryTotal = Float.parseFloat(splitArr3[3])
-        processDTO.memoryFree = Float.parseFloat(splitArr3[5])
+        processDTO.numOfUsers = Integer.parseInt(splitArr1[5])
+        println(processDTO.numOfUsers) //good to go
+
+        processDTO.numOfTasks = Integer.parseInt(splitArr1[13])
+        println(processDTO.numOfTasks) //good to go
+
+        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[24]) //user space time
+        println(processDTO.cpuPercentageUsed) //good to go
+
+        processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[30]) //idle time
+        println(processDTO.cpuPercentageFree) //good to go
+
+        processDTO.memoryTotal = Float.parseFloat(splitArr1[43])
+        println(processDTO.memoryTotal) //good to go
+
+        processDTO.memoryFree = Float.parseFloat(splitArr1[45])
+        println(processDTO.memoryFree) //good to go
+
 
         // Create an empty list to store process list
         List<TopProcess> processList = []
 
+//        println(splitArr1[74])
+//        println(splitArr1[75])
+//        println(splitArr1[82])
+//        println(splitArr1[83])
+//        println(splitArr1[84])
+//        println(splitArr1[85])
+
         // Loop through each process list
-        for(int i= 7; i<response.length; i++){
-            // Split response lines by whitespace
-            String[] splitArr = response.get(i).split("\\s+")
-
-            // Create and append objects with each process info
-            TopProcess topProcess = new TopProcess()
-            topProcess.PID = Integer.parseInt(splitArr[0])
-            topProcess.user = splitArr[1]
-            topProcess.cpuUsagePercent = Float.parseFloat(splitArr[8])
-            topProcess.memUsagePercent = Float.parseFloat(splitArr[9])
-            topProcess.processUpTime = splitArr[10]
-            topProcess.processCommandName = splitArr[11]
-
-            // Append each object to the list
-            processList.add(topProcess)
-        }
-        processDTO.ProcessList = processList
+//        for(int i= 74; i<splitArr1.length; i+12){
+//            // Create and append objects with each process info
+//            TopProcess topProcess = new TopProcess()
+//            topProcess.PID = Integer.parseInt(splitArr1[i+0])
+//            topProcess.user = splitArr1[i+1]
+//            topProcess.cpuUsagePercent = Float.parseFloat(splitArr1[i+8])
+//            topProcess.memUsagePercent = Float.parseFloat(splitArr1[i+9])
+//            topProcess.processUpTime = splitArr1[i+10]
+//            topProcess.processCommandName = splitArr1[i+11]
+//
+//            // Append each object to the list
+//            processList.add(topProcess)
+//        }
+        //processDTO.ProcessList = processList
 
         return processDTO
     }
