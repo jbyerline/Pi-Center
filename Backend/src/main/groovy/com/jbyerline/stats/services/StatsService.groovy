@@ -91,7 +91,7 @@ class StatsService {
     /**
      * Get HW Information
      * @param connectionDomain
-     * @return String (Pre-formatted JSON_
+     * @return String (Pre-formatted JSON)
      */
     String getHardwareInfo(ConnectionDomain connectionDomain){
 
@@ -105,6 +105,11 @@ class StatsService {
         return response.get(0)
     }
 
+    /**
+     *Execute any command
+     * @param connectionDomain
+     * @return Unparsed String
+     */
     List<String> executeCommand(CommandDomain commandDomain){
         ConnectionDomain cd = new ConnectionDomain()
         cd.username = commandDomain.username
