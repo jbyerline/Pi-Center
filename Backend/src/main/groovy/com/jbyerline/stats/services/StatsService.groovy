@@ -6,6 +6,7 @@ import com.jbyerline.stats.dtos.CPUStatsDTO
 
 import com.jbyerline.stats.dtos.ProcessDTO
 import com.jbyerline.stats.dtos.StorageStatsDTO
+import com.jbyerline.stats.dtos.TopProcess
 import com.jbyerline.stats.utils.PerformCommand
 import groovy.util.logging.Slf4j
 import org.springframework.stereotype.Service
@@ -101,6 +102,18 @@ class StatsService {
 
         // Return Response
         return response.get(0)
+    }
+
+    List<String> executeCommand(CommandDomain commandDomain){
+        ConnectionDomain cd = new ConnectionDomain()
+        cd.username = commandDomain.username
+        cd.ipAddress = commandDomain.ipAddress
+        cd.password = commandDomain.password
+        cd.port = commandDomain.port
+
+        List<String> response = performer.executeCommands(cd, commandDomain.commands)
+
+        return response
     }
 
     /**
