@@ -4,6 +4,7 @@ import com.jbyerline.stats.domains.CommandDomain
 import com.jbyerline.stats.domains.ConnectionDomain
 import com.jbyerline.stats.dtos.CPUStatsDTO
 
+import com.jbyerline.stats.dtos.TopProcess
 import com.jbyerline.stats.dtos.ProcessDTO
 import com.jbyerline.stats.dtos.StorageStatsDTO
 import com.jbyerline.stats.dtos.TopProcess
