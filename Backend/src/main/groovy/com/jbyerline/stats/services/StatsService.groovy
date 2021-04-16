@@ -136,10 +136,12 @@ class StatsService {
         // Split response lines by whitespace
         String[] splitArr1 = response.get(1).split("\\s+")
 
+        log.info(response.get(1))
+
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
-        processDTO.numOfUsers = Integer.parseInt(splitArr1[5])
-        processDTO.numOfTasks = Integer.parseInt(splitArr1[13])
+        processDTO.numOfUsers = Integer.parseInt(splitArr1[4])
+        processDTO.numOfTasks = Integer.parseInt(splitArr1[15])
         processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[24]) //user space time
         processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[30]) //idle time
         processDTO.memoryTotal = Float.parseFloat(splitArr1[43])
