@@ -140,19 +140,20 @@ class StatsService {
 
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
+
         processDTO.numOfUsers = Integer.parseInt(splitArr1[4])
         processDTO.numOfTasks = Integer.parseInt(splitArr1[15])
-        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[24]) //user space time
-        processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[30]) //idle time
-        processDTO.memoryTotal = Float.parseFloat(splitArr1[43])
-        processDTO.memoryFree = Float.parseFloat(splitArr1[45])
-        processDTO.memoryUsed = Float.parseFloat(splitArr1[47])
+        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[26]) //user space time
+        processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[32]) //idle time
+        processDTO.memoryTotal = Float.parseFloat(splitArr1[45])
+        processDTO.memoryFree = Float.parseFloat(splitArr1[47])
+        processDTO.memoryUsed = Float.parseFloat(splitArr1[49])
 
         // Create an empty list to store process list
         List<TopProcess> processList = []
 
         // Loop through each process list
-        for(int i= 74; i<splitArr1.length; i=i+12){
+        for(int i= 76; i<splitArr1.length; i=i+12){
             //special case: command is 2 words (usually just 1)
             if(splitArr1[i] == "Notif+"){
                 i+=1
