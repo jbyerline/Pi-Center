@@ -136,7 +136,7 @@ class StatsService {
         // Split response lines by whitespace
         String[] splitArr1 = response.get(1).split("\\s+")
 
-        log.info(response.get(1))
+        //log.info(response.get(1))
 
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
