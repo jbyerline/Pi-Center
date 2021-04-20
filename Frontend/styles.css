@@ -3,7 +3,7 @@
 
 :root {
   /* Font */
-  --Montserrat: 'Montserrat', sans-serif;
+  --Montserrat: 'Montserrat', sans-serif !important;
 
   /* Font Weights */
   --Light: 300;
