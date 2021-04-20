@@ -90,4 +90,31 @@ header label {
   border-radius: 10px;
   margin: 10px;
 }
+
+.btn {
+  height: 90%;
+  background-color: var(--Marigold);
+  border: none;
+  font-weight: var(--Bold);
+  font-size: 1.5em;
+  transition: color 0.8s ease, background-color 0.8s ease;
+}
+
+.btn:hover {
+  background-color: var(--White);
+  color: var(--Marigold);
+}
+
+
+#table th{
+  font-weight: var(--Bold);
+}
+
+.module-subheader{
+  text-align: center;
+}
+
+#hardware-container p{
+  text-align: center;
+}
 /* ------ END MODULE ------ */
