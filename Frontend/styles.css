@@ -18,13 +18,55 @@
 }
 
 body {
-  font-family: var(--Montserrat);
+  font-family: var(--Montserrat) !important;
 }
 
 .row {
   margin: 10px;
 }
 
+/* ------ HEADER (NAVBAR) ------ */
+header h1 {
+    font-family: var(--Montserrat);
+    font-weight: 800;
+    font-style: italic;
+    color: var(--Marigold);
+}
+
+header .row {
+  margin: 0;
+  padding: 10px;
+  background-color: var(--Smoke) !important;
+  color: var(--White) !important;
+}
+
+header .col-sm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .btn {
+  height: 70%;
+  background-color: var(--Marigold);
+  border: none;
+  font-weight: var(--Bold);
+  font-size: 1.5em;
+  transition: color 0.8s ease, background-color 0.8s ease;
+}
+
+header .btn:hover {
+  background-color: var(--White);
+  color: var(--Marigold);
+}
+
+header label {
+  width: 100%;
+  text-align: center;
+}
+/* ------ END HEADER ------ */
+
+/* ------ MODULE ------ */
 .header-container {
   width: 60%;
   text-align: center;
@@ -32,8 +74,7 @@ body {
 }
 
 .header-container hr {
-  border: 2px solid var(--smoke);
-  height: 2px;
+  border: 2px solid var(--Smoke);
 }
 
 .module-header {
@@ -49,7 +90,4 @@ body {
   border-radius: 10px;
   margin: 10px;
 }
-
-.btn {
-  margin-top: 50px !important;
-}
+/* ------ END MODULE ------ */
