@@ -21,6 +21,16 @@ body {
   font-family: var(--Montserrat);
 }
 
+.row {
+  margin: 10px;
+}
+
+.info-container {
+  border: 4px solid var(--Smoke);
+  border-radius: 10px;
+  margin: 10px;
+}
+
 .btn {
   margin-top: 50px !important;
 }
