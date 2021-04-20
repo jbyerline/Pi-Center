@@ -25,7 +25,26 @@ body {
   margin: 10px;
 }
 
-.info-container {
+.header-container {
+  width: 60%;
+  text-align: center;
+  margin: auto;
+}
+
+.header-container hr {
+  border: 2px solid var(--smoke);
+  height: 2px;
+}
+
+.module-header {
+  text-transform: uppercase;
+  font-family: var(--Montserrat);
+  font-weight: var(--Bold);
+  color: var(--Marigold);
+  /* font-size: 1.5em; */
+}
+
+.module-container {
   border: 4px solid var(--Smoke);
   border-radius: 10px;
   margin: 10px;
