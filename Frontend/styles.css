@@ -97,12 +97,14 @@ header label {
   border: none;
   font-weight: var(--Bold);
   font-size: 1.5em;
-  transition: color 0.8s ease, background-color 0.8s ease;
+  border: 2px solid var(--White);
+  transition: color 0.8s ease, border 0.8s ease, background-color 0.8s ease;
 }
 
 .btn:hover {
   background-color: var(--White);
   color: var(--Marigold);
+  border: 2px solid var(--Marigold);
 }
 
 
