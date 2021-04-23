@@ -120,13 +120,56 @@ header label {
   text-align: center;
 }
 
-
-}
 /* ------ END MODULE ------ */
+
+/* ------ STORAGE ------- */
+.percentage-container {
+  max-width: 60%;
+  margin: 0px auto 10px auto;
+  border: none;
+}
+
+.percentage-used {
+  background-color: var(--Marigold) !important;
+  color: var(--White) !important;
+  padding: 0px !important;
+  text-align: center !important;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid var(--Marigold) !important;
+}
+
+.nav-link {
+  border-top-right-radius: 0 !important;
+  border-right: 1px solid var(--Smoke) !important;
+}
+
+.nav-link:hover {
+  color: var(--Marigold) !important;
+}
+
+.nav-link.active {
+  border-color: var(--Marigold) var(--Marigold) #fff !important;
+  color: var(--Marigold) !important;
+}
+
+.tab-pane.active {
+  border: 1px solid var(--Marigold) !important;
+  border-top: 0 !important;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.tab-pane p {
+  text-align: center;
+}
+/* ------ END STORAGE ------- */
 
 /* ------ HARDWARE ------ */
 pre {
   max-height: 400px;
+  max-width: 100%;
   overflow: scroll;
   border: 2px solid var(--Smoke);
 }

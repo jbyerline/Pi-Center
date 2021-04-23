@@ -87,7 +87,7 @@
 
           </div>
 
-          <ul id="storage-nav" class="nav nav-tabs flex-nowrap" role="tablist">
+          <ul id="storage-nav" class="nav nav-tabs flex-nowrap justify-content-center nav-fill" role="tablist">
             <template id="nav-item-template">
               <li class="nav-item">
                 <a class="nav-link{{active}}" data-toggle="tab" href="{{link}}">{{name}}</a>
@@ -98,14 +98,14 @@
           <div id="storage-content" class="tab-content">
             <template id="content-item-template">
               <div class="tab-pane fade{{active}}" id="{{link}}" role="tabpanel">
-                <div class="w3-black w3-round w3-xlarge">
-                    <div class="w3-container w3-amber w3-round w3-center" style="width:{{use-percent}}">{{use-percent}}</div>
+                <div class="percentage-container w3-black w3-round w3-xlarge">
+                    <div class="percentage-used w3-container w3-round w3-center" style="width:{{use-percent}}">{{use-percent}}</div>
                 </div>
-                <p>FILESYSTEM: {{name}}</p>
-                <p>TOTAL SIZE: {{size}}</p>
-                <p>SPACE USED: {{space-used}}</p>
-                <p>SPACE AVAILABLE: {{space-available}}</p>
-                <p>MOUNT PATH: {{mount-path}}</p>
+                <p><b>FILESYSTEM:</b> {{name}}</p>
+                <p><b>TOTAL SIZE:</b> {{size}}</p>
+                <p><b>SPACE USED:</b> {{space-used}}</p>
+                <p><b>SPACE AVAILABLE:</b> {{space-available}}</p>
+                <p><b>MOUNT PATH:</b> "{{mount-path}}"</p>
               </div>
             </template>
           </div>
