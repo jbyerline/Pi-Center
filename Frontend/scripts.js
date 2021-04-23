@@ -13,6 +13,8 @@ var userCredentials = {
 if(userCredentials.username != null && userCredentials.ipAddress != null && userCredentials.port != null && userCredentials.password != null) {
   apiRequest(userCredentials, "cpu");
   cpuPolling(userCredentials, 0);
+
+  apiRequest(userCredentials, "storage");
 }
 
 $("form[name='login']").validate({
@@ -56,20 +58,6 @@ function getUrlParameter(sParam) {
     return null;
 };
 
-function fillPageData(requestType, response) {
-  console.log(requestType);
-  console.log(response);
-
-  // if(requestType == "cpu") {
-  //   $("#cpuInfo").text(response);
-  // }
-
-  // apiRequest(userCredentials, "cpu");
-  // apiRequest(userCredentials, "storage");
-  // apiRequest(userCredentials, "hardwareInfo");
-  // apiRequest(userCredentials, "process");
-}
-
 function apiRequest(credentials, requestType) {
   $.ajax({
     url: 'http://byerline.me:8081/stats/' + requestType,
@@ -80,6 +68,9 @@ function apiRequest(credentials, requestType) {
     data: JSON.stringify(credentials),
     success: function(response) {
       console.log(response)
+      if(requestType == "storage") {
+        fillStorageData(response);
+      }
     }
   });
 }
@@ -100,6 +91,49 @@ function cpuPolling(credentials, count){
       }
     });
   }, 1000 * count);
+}
+
+function fillStorageData(data) {
+  var nav = $("#storage-nav");
+  var content = $("#storage-content");
+  var navTemplate = $.trim($("#nav-item-template").html());
+  var contentTemplate = $.trim($("#content-item-template").html());
+
+  $.each(data, function(index, obj) {
+    var x = navTemplate.replace(/{{link}}/ig, "nav"+index);
+    x = x.replace(/{{name}}/ig, obj.fileSystemName);
+
+    var y = contentTemplate.replace(/{{link}}/ig, "nav"+index);
+    y = y.replace(/{{use-percent}}/ig, obj.percentageUsed);
+    y = y.replace(/{{name}}/ig, obj.fileSystemName);
+    y = y.replace(/{{size}}/ig, obj.totalSize);
+    y = y.replace(/{{space-used}}/ig, obj.amountUsed);
+    y = y.replace(/{{space-available}}/ig, obj.amountAvailable);
+    y = y.replace(/{{mount-path}}/ig, obj.mountPath);
+
+    if(index == 0) {
+      x = x.replace(/{{active}}/ig, " active");
+      y = y.replace(/{{active}}/ig, " show active");
+    }
+    else {
+      x = x.replace(/{{active}}/ig, "");
+      y = y.replace(/{{active}}/ig, "");
+    }
+
+    nav.append(x);
+    content.append(y);
+  });
+
+  console.log(navTemplate);
+  console.log($(navTemplate).attr("href"));
+
+  data.forEach((entry) => {
+    console.log(entry);
+  });
+
+
+  // nav.append(navTemplate);
+  // nav.append(navItem);
 }
 
 // ---------- CHART JS -----------
