@@ -100,7 +100,8 @@ function cpuPolling(credentials, count){
       success: function(response) {
         // cpuArray[count++] = response.cpuTemp[0];
         // console.log(cpuArray);
-        addData(cpuChart, count, response.cpuTemp[0]);
+
+        addData(cpuChart, count++, response.cpuTemp[0]);
         cpuPolling(credentials, count);
       }
     });
@@ -115,7 +116,7 @@ var cpuChart = new Chart(ctx, {
     data: {
       labels: [0],
       datasets: [{
-        data: [0],
+        data: [],
         label: "CPU Temp",
         borderColor: "#ECA72C",
         fill: false
@@ -150,15 +151,3 @@ function addData(chart, label, data) {
     });
     chart.update();
 }
-
-
-// $("#login").submit(function(event) {
-//   console.log(event);
-//   localStorage.setItem("test", JSON.stringify(event));
-// });
-
-// $("#test").click(function() {
-//   console.log("test");
-//   var temp = localStorage.getItem("test");
-//   console.log(temp);
-// });
