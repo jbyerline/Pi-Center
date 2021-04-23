@@ -123,17 +123,6 @@ function fillStorageData(data) {
     nav.append(x);
     content.append(y);
   });
-
-  console.log(navTemplate);
-  console.log($(navTemplate).attr("href"));
-
-  data.forEach((entry) => {
-    console.log(entry);
-  });
-
-
-  // nav.append(navTemplate);
-  // nav.append(navItem);
 }
 
 // ---------- CHART JS -----------
