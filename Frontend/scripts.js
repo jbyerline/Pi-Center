@@ -100,8 +100,8 @@ function cpuPolling(credentials, count){
       success: function(response) {
         // cpuArray[count++] = response.cpuTemp[0];
         // console.log(cpuArray);
-
-        addData(cpuChart, count++, response.cpuTemp[0]);
+        count++;
+        addData(cpuChart, count, response.cpuTemp[0]);
         cpuPolling(credentials, count);
       }
     });
