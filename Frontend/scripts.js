@@ -100,7 +100,7 @@ function fillStorageData(data) {
   var contentTemplate = $.trim($("#content-item-template").html());
 
   $.each(data, function(index, obj) {
-    var x = navTemplate.replace(/{{link}}/ig, "nav"+index);
+    var x = navTemplate.replace(/{{link}}/ig, "#nav"+index);
     x = x.replace(/{{name}}/ig, obj.fileSystemName);
 
     var y = contentTemplate.replace(/{{link}}/ig, "nav"+index);
