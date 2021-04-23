@@ -124,9 +124,12 @@ $(function() {
     content = content.replace(/{{name}}/ig, data.product);
     content = content.replace(/{{description}}/ig, data.description);
     content = content.replace(/{{serial}}/ig, data.serial);
-    content = content.replace(/{{pretty-print}}/ig, syntaxHighlight(JSON.stringify(data)));
+    content = content.replace(/{{pretty-print}}/ig, JSON.stringify(data, null, 2));
 
     $("#hardware-container").html(content);
+
+    // Highlight syntax with highlight.js
+    hljs.highlightAll();
   }
 
   // ---------- CHART JS -----------

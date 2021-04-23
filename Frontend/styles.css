@@ -120,3 +120,11 @@ header label {
   text-align: center;
 }
 /* ------ END MODULE ------ */
+
+/* ------ HARDWARE ------ */
+pre {
+  max-height: 400px;
+  overflow: scroll;
+  border: 2px solid var(--Smoke);
+}
+/* ------ END HARDWARE ------ */

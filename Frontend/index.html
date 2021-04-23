@@ -17,6 +17,9 @@
     <!-- FontAwesome Minified -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <!-- Highlight.js Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.1/build/styles/default.min.css">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./styles.css">
 
@@ -116,7 +119,11 @@
           <p>Description: {{description}}</p>
           <p>Serial No: {{serial}}</p>
 
-          <pre id="hardware-info">{{pretty-print}}</pre>
+          <pre id="hardware-info">
+            <code class="language-json">
+              {{pretty-print}}
+            </code>
+          </pre>
         </div>
       </div>
 
@@ -180,8 +187,6 @@
             </div>
           </div>
 
-
-
         </div>
       </div>
     </div>
@@ -196,6 +201,9 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js" integrity="sha256-lISRn4x2bHaafBiAb0H5C7mqJli7N0SH+vrapxjIz3k=" crossorigin="anonymous"></script>
+
+    <!-- Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.1/build/highlight.min.js"></script>
 
     <!-- Custom Javascript -->
     <script src="./scripts.js"></script>
