@@ -120,10 +120,3 @@ header label {
   text-align: center;
 }
 /* ------ END MODULE ------ */
-
-/* Pretty Print */
-.string { color: green; }
-.number { color: darkorange; }
-.boolean { color: blue; }
-.null { color: magenta; }
-.key { color: red; }
