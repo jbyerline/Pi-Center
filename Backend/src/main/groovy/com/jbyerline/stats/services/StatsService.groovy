@@ -4,12 +4,13 @@ import com.jbyerline.stats.domains.CommandDomain
 import com.jbyerline.stats.domains.ConnectionDomain
 import com.jbyerline.stats.dtos.CPUStatsDTO
 
-import com.jbyerline.stats.dtos.TopProcess
+import org.json.XML;
 import com.jbyerline.stats.dtos.ProcessDTO
 import com.jbyerline.stats.dtos.StorageStatsDTO
 import com.jbyerline.stats.dtos.TopProcess
 import com.jbyerline.stats.utils.PerformCommand
 import groovy.util.logging.Slf4j
+import org.json.JSONObject
 import org.springframework.stereotype.Service
 
 @Slf4j
@@ -96,13 +97,19 @@ class StatsService {
     String getHardwareInfo(ConnectionDomain connectionDomain){
 
         // Define Command
-        List<String> commandList = ["sudo lshw -json"]
+        List<String> commandList = ["sudo lshw -xml"]
 
         // Execute Command
         List<String> response = performer.executeCommands(connectionDomain, commandList)
 
+        // Parse XML to JSON
+        JSONObject xmlJSONObj = XML.toJSONObject(response.get(0))
+
+        // Convert JSON object to String
+        String jsonPrettyPrintString = xmlJSONObj.toString(4)
+
         // Return Response
-        return response.get(0)
+        return jsonPrettyPrintString
     }
 
     /**
