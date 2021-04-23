@@ -67,7 +67,6 @@ function apiRequest(credentials, requestType) {
     },
     data: JSON.stringify(credentials),
     success: function(response) {
-      console.log(response)
       if(requestType == "storage") {
         fillStorageData(response);
       }
