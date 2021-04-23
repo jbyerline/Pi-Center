@@ -71,21 +71,17 @@ function fillPageData(requestType, response) {
 }
 
 function apiRequest(credentials, requestType) {
-  var xhttp = new XMLHttpRequest();
-  var request = "http://byerline.me:8081/stats/" + requestType;
-  xhttp.open("POST", request);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.send(JSON.stringify(credentials));
-
-  xhttp.onload = function () {
-    if (xhttp.readyState === xhttp.DONE) {
-        if (xhttp.status === 200) {
-            // console.log(xhttp.response);
-            // console.log(xhttp.responseText);
-            fillPageData(requestType, xhttp.responseText);
-        }
+  $.ajax({
+    url: 'http://byerline.me:8081/stats/' + requestType,
+    type: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify(credentials),
+    success: function(response) {
+      console.log(response)
     }
-  };
+  });
 }
 
 function cpuPolling(credentials, count){
@@ -98,8 +94,6 @@ function cpuPolling(credentials, count){
       },
       data: JSON.stringify(credentials),
       success: function(response) {
-        // cpuArray[count++] = response.cpuTemp[0];
-        // console.log(cpuArray);
         count++;
         addData(cpuChart, count, response.cpuTemp[0]);
         cpuPolling(credentials, count);
@@ -107,7 +101,6 @@ function cpuPolling(credentials, count){
     });
   }, 1000 * count);
 }
-
 
 // ---------- CHART JS -----------
 var ctx = document.getElementById('cpuChart').getContext('2d');
