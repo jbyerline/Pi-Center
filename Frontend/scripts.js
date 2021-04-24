@@ -20,6 +20,14 @@ $(function() {
     cpuPolling(userCredentials, 0);
   }
 
+  $( "#run-command" ).click(function() {
+    var input = $("#command-input").val();
+    userCredentials.commands = [input];
+
+    // console.log(userCredentials);
+    apiRequest(userCredentials, "command");
+  });
+
   $("form[name='login']").validate({
     rules: {
       user: "required",
@@ -59,6 +67,9 @@ $(function() {
         }
         if(requestType == "hardwareInfo") {
           fillHardwareData(response.list.node);
+        }
+        if(requestType == "command") {
+          $("#command-response").html(response);
         }
       },
       error: function(xhr, status, error) {

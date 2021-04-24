@@ -174,3 +174,10 @@ pre {
   border: 2px solid var(--Smoke);
 }
 /* ------ END HARDWARE ------ */
+
+/* ------ COMMAND ------ */
+#command-response {
+  white-space: pre-wrap;
+  text-align: left;
+}
+/* ------ END COMMAND ------ */
