@@ -18,6 +18,7 @@ $(function() {
 
     // apiRequest(userCredentials, "cpu");
     cpuPolling(userCredentials, 0);
+    processPolling(userCredentials, 0);
   }
 
   $( "#run-command" ).click(function() {
@@ -97,6 +98,24 @@ $(function() {
     }, 1000 * count);
   }
 
+  function processPolling(credentials, count){
+    setTimeout(() => {
+      $.ajax({
+        url: 'http://byerline.me:8081/stats/process',
+        type: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(credentials),
+        success: function(response) {
+          count++;
+          fillProcessData(response);
+          processPolling(credentials, count);
+        }
+      });
+    }, 2500 * count);
+  }
+
   function fillStorageData(data) {
     var nav = $("#storage-nav");
     var content = $("#storage-content");
@@ -141,6 +160,35 @@ $(function() {
 
     // Highlight syntax with highlight.js
     hljs.highlightAll();
+  }
+
+  function fillProcessData(data) {
+    var processTemplate = $.trim($("#process-item-template").html());
+    var processHeader = $("#process-header-template").html();
+
+    $(".process-item").remove();
+
+    var header = processHeader.replace(/{{num-users}}/ig, data.numOfUsers);
+    header = header.replace(/{{num-tasks}}/ig, data.numOfTasks);
+    header = header.replace(/{{cpu-free}}/ig, data.cpuPercentageFree);
+    header = header.replace(/{{cpu-used}}/ig, data.cpuPercentageUsed);
+    header = header.replace(/{{mem-free}}/ig, data.memoryFree);
+    header = header.replace(/{{mem-used}}/ig, data.memoryUsed);
+    header = header.replace(/{{mem-total}}/ig, data.memoryTotal);
+
+    $.each(data.processList, function(index, process) {
+      var newProcess = processTemplate.replace(/{{id}}/ig, index);
+      newProcess = newProcess.replace(/{{pid}}/ig, process.pid);
+      newProcess = newProcess.replace(/{{user}}/ig, process.user);
+      newProcess = newProcess.replace(/{{cpu-percent}}/ig, process.cpuUsagePercent);
+      newProcess = newProcess.replace(/{{mem-percent}}/ig, process.memUsagePercent);
+      newProcess = newProcess.replace(/{{process-uptime}}/ig, process.processUpTime);
+      newProcess = newProcess.replace(/{{process-name}}/ig, process.processCommandName);
+
+      $("#process-table").append(newProcess);
+    });
+
+    $("#process-header").html(header);
   }
 
   // ---------- CHART JS -----------
