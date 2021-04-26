@@ -12,6 +12,7 @@ import com.jbyerline.stats.utils.PerformCommand
 import groovy.util.logging.Slf4j
 import org.json.JSONObject
 import org.springframework.stereotype.Service
+import java.time.LocalTime
 
 @Slf4j
 @Service
@@ -143,40 +144,75 @@ class StatsService {
         // Split response lines by whitespace
         String[] splitArr1 = response.get(1).split("\\s+")
 
-        //log.info(response.get(1))
+        log.info(response.get(1))
 
         // Create response object
         ProcessDTO processDTO = new ProcessDTO()
 
-        processDTO.numOfUsers = Integer.parseInt(splitArr1[4])
-        processDTO.numOfTasks = Integer.parseInt(splitArr1[15])
-        processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[26]) //user space time
-        processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[32]) //idle time
-        processDTO.memoryTotal = Float.parseFloat(splitArr1[45])
-        processDTO.memoryFree = Float.parseFloat(splitArr1[47])
-        processDTO.memoryUsed = Float.parseFloat(splitArr1[49])
-
         // Create an empty list to store process list
         List<TopProcess> processList = []
 
-        // Loop through each process list
-        for(int i= 76; i<splitArr1.length; i=i+12){
-            //special case: command is 2 words (usually just 1)
-            if(splitArr1[i] == "Notif+"){
-                i+=1
-            }
-            // Create and append objects with each process info
-            TopProcess topProcess = new TopProcess()
-            topProcess.PID = Integer.parseInt(splitArr1[i])
-            topProcess.user = splitArr1[i+1]
-            topProcess.cpuUsagePercent = Float.parseFloat(splitArr1[i+8])
-            topProcess.memUsagePercent = Float.parseFloat(splitArr1[i+9])
-            topProcess.processUpTime = splitArr1[i+10]
-            topProcess.processCommandName = splitArr1[i+11]
+        LocalTime time = LocalTime.parse(splitArr1[2]); //used to fix parsing issue
 
-            // Append each object to the list
-            processList.add(topProcess)
+        if(time.getHour() < 12){
+            println("A.M.")
+            processDTO.numOfUsers = Integer.parseInt(splitArr1[4])
+            processDTO.numOfTasks = Integer.parseInt(splitArr1[15])
+            processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[26]) //user space time
+            processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[32]) //idle time
+            processDTO.memoryTotal = Float.parseFloat(splitArr1[45])
+            processDTO.memoryFree = Float.parseFloat(splitArr1[47])
+            processDTO.memoryUsed = Float.parseFloat(splitArr1[49])
+
+            // Loop through each process list
+            for(int i= 76; i<splitArr1.length; i=i+12){
+                //special case: command is 2 words (usually just 1)
+                if(splitArr1[i] == "Notif+"){
+                    i+=1
+                }
+                // Create and append objects with each process info
+                TopProcess topProcess = new TopProcess()
+                topProcess.PID = Integer.parseInt(splitArr1[i])
+                topProcess.user = splitArr1[i+1]
+                topProcess.cpuUsagePercent = Float.parseFloat(splitArr1[i+8])
+                topProcess.memUsagePercent = Float.parseFloat(splitArr1[i+9])
+                topProcess.processUpTime = splitArr1[i+10]
+                topProcess.processCommandName = splitArr1[i+11]
+
+                // Append each object to the list
+                processList.add(topProcess)
+            }
         }
+        else{
+            println("P.M.")
+            processDTO.numOfUsers = Integer.parseInt(splitArr1[8])
+            processDTO.numOfTasks = Integer.parseInt(splitArr1[16])
+            processDTO.cpuPercentageUsed = Float.parseFloat(splitArr1[27]) //user space time
+            processDTO.cpuPercentageFree = Float.parseFloat(splitArr1[33]) //idle time
+            processDTO.memoryTotal = Float.parseFloat(splitArr1[46])
+            processDTO.memoryFree = Float.parseFloat(splitArr1[48])
+            processDTO.memoryUsed = Float.parseFloat(splitArr1[50])
+
+            // Loop through each process list
+            for(int i= 77; i<splitArr1.length; i=i+12){
+                //special case: command is 2 words (usually just 1)
+                if(splitArr1[i] == "Notif+"){
+                    i+=1
+                }
+                // Create and append objects with each process info
+                TopProcess topProcess = new TopProcess()
+                topProcess.PID = Integer.parseInt(splitArr1[i])
+                topProcess.user = splitArr1[i+1]
+                topProcess.cpuUsagePercent = Float.parseFloat(splitArr1[i+8])
+                topProcess.memUsagePercent = Float.parseFloat(splitArr1[i+9])
+                topProcess.processUpTime = splitArr1[i+10]
+                topProcess.processCommandName = splitArr1[i+11]
+
+                // Append each object to the list
+                processList.add(topProcess)
+            }
+        }
+
         processDTO.ProcessList = processList
 
         return processDTO
