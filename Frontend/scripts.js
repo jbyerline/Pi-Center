@@ -13,10 +13,11 @@ $(function() {
   };
 
   if(userCredentials.username != null && userCredentials.ipAddress != null && userCredentials.port != null && userCredentials.password != null) {
+    // Single use API requests to fill the page information
     apiRequest(userCredentials, "storage");
     apiRequest(userCredentials, "hardwareInfo");
 
-    // apiRequest(userCredentials, "cpu");
+    // Start polling requests
     cpuPolling(userCredentials, 0);
     processPolling(userCredentials, 0);
   }
@@ -25,7 +26,6 @@ $(function() {
     var input = $("#command-input").val();
     userCredentials.commands = [input];
 
-    // console.log(userCredentials);
     apiRequest(userCredentials, "command");
   });
 
@@ -62,7 +62,6 @@ $(function() {
       },
       data: JSON.stringify(credentials),
       success: function(response) {
-        // console.log(response);
         if(requestType == "storage") {
           fillStorageData(response);
         }
@@ -73,9 +72,10 @@ $(function() {
           $("#command-response").html(response);
         }
       },
-      error: function(xhr, status, error) {
-        var err = eval("(" + xhr.responseText + ")");
-        alert(err.Message);
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+        console.log(jqXHR);
+        console.log(textStatus + " | " + errorThrown);
       }
     });
   }
@@ -93,6 +93,11 @@ $(function() {
           count++;
           addData(cpuChart, count, response.cpuTemp[0]);
           cpuPolling(credentials, count);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+          console.log(jqXHR);
+          console.log(textStatus + " | " + errorThrown);
         }
       });
     }, 1000 * count);
@@ -111,6 +116,11 @@ $(function() {
           count++;
           fillProcessData(response);
           processPolling(credentials, count);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+          console.log(jqXHR);
+          console.log(textStatus + " | " + errorThrown);
         }
       });
     }, 2500 * count);
@@ -166,6 +176,7 @@ $(function() {
     var processTemplate = $.trim($("#process-item-template").html());
     var processHeader = $("#process-header-template").html();
 
+    // Remove old processes before updating table
     $(".process-item").remove();
 
     var header = processHeader.replace(/{{num-users}}/ig, data.numOfUsers);
