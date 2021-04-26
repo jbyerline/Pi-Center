@@ -13,18 +13,19 @@ $(function() {
   };
 
   if(userCredentials.username != null && userCredentials.ipAddress != null && userCredentials.port != null && userCredentials.password != null) {
+    // Single use API requests to fill the page information
     apiRequest(userCredentials, "storage");
     apiRequest(userCredentials, "hardwareInfo");
 
-    // apiRequest(userCredentials, "cpu");
+    // Start polling requests
     cpuPolling(userCredentials, 0);
+    processPolling(userCredentials, 0);
   }
 
   $( "#run-command" ).click(function() {
     var input = $("#command-input").val();
     userCredentials.commands = [input];
 
-    // console.log(userCredentials);
     apiRequest(userCredentials, "command");
   });
 
@@ -61,7 +62,6 @@ $(function() {
       },
       data: JSON.stringify(credentials),
       success: function(response) {
-        // console.log(response);
         if(requestType == "storage") {
           fillStorageData(response);
         }
@@ -72,9 +72,10 @@ $(function() {
           $("#command-response").html(response);
         }
       },
-      error: function(xhr, status, error) {
-        var err = eval("(" + xhr.responseText + ")");
-        alert(err.Message);
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert(errorThrown);
+        console.log(jqXHR);
+        console.log(textStatus + " | " + errorThrown);
       }
     });
   }
@@ -92,9 +93,37 @@ $(function() {
           count++;
           addData(cpuChart, count, response.cpuTemp[0]);
           cpuPolling(credentials, count);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+          console.log(jqXHR);
+          console.log(textStatus + " | " + errorThrown);
         }
       });
     }, 1000 * count);
+  }
+
+  function processPolling(credentials, count){
+    setTimeout(() => {
+      $.ajax({
+        url: 'http://byerline.me:8081/stats/process',
+        type: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(credentials),
+        success: function(response) {
+          count++;
+          fillProcessData(response);
+          processPolling(credentials, count);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+          console.log(jqXHR);
+          console.log(textStatus + " | " + errorThrown);
+        }
+      });
+    }, 2500 * count);
   }
 
   function fillStorageData(data) {
@@ -143,6 +172,36 @@ $(function() {
     hljs.highlightAll();
   }
 
+  function fillProcessData(data) {
+    var processTemplate = $.trim($("#process-item-template").html());
+    var processHeader = $("#process-header-template").html();
+
+    // Remove old processes before updating table
+    $(".process-item").remove();
+
+    var header = processHeader.replace(/{{num-users}}/ig, data.numOfUsers);
+    header = header.replace(/{{num-tasks}}/ig, data.numOfTasks);
+    header = header.replace(/{{cpu-free}}/ig, data.cpuPercentageFree);
+    header = header.replace(/{{cpu-used}}/ig, data.cpuPercentageUsed);
+    header = header.replace(/{{mem-free}}/ig, data.memoryFree);
+    header = header.replace(/{{mem-used}}/ig, data.memoryUsed);
+    header = header.replace(/{{mem-total}}/ig, data.memoryTotal);
+
+    $.each(data.processList, function(index, process) {
+      var newProcess = processTemplate.replace(/{{id}}/ig, index);
+      newProcess = newProcess.replace(/{{pid}}/ig, process.pid);
+      newProcess = newProcess.replace(/{{user}}/ig, process.user);
+      newProcess = newProcess.replace(/{{cpu-percent}}/ig, process.cpuUsagePercent);
+      newProcess = newProcess.replace(/{{mem-percent}}/ig, process.memUsagePercent);
+      newProcess = newProcess.replace(/{{process-uptime}}/ig, process.processUpTime);
+      newProcess = newProcess.replace(/{{process-name}}/ig, process.processCommandName);
+
+      $("#process-table").append(newProcess);
+    });
+
+    $("#process-header").html(header);
+  }
+
   // ---------- CHART JS -----------
   var ctx = document.getElementById('cpuChart').getContext('2d');
   var cpuChart = new Chart(ctx, {
@@ -185,26 +244,6 @@ $(function() {
   }
 
   // -------- EXTERNAL METHODS --------
-  // http://jsfiddle.net/KJQ9K/554/
-  function syntaxHighlight(json) {
-      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-          var cls = 'number';
-          if (/^"/.test(match)) {
-              if (/:$/.test(match)) {
-                  cls = 'key';
-              } else {
-                  cls = 'string';
-              }
-          } else if (/true|false/.test(match)) {
-              cls = 'boolean';
-          } else if (/null/.test(match)) {
-              cls = 'null';
-          }
-          return '<span class="' + cls + '">' + match + '</span>';
-      });
-  }
-
   // https://stackoverflow.com/questions/19491336/how-to-get-url-parameter-using-jquery-or-plain-javascript
   function getUrlParameter(sParam) {
       var sPageURL = window.location.search.substring(1),

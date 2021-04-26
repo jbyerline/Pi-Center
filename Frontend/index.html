@@ -137,36 +137,53 @@
           </div>
 
           <div class="table-container">
-            <table id = "table" style="width:100%">
-              <tr>
-                <th>PID</th>
-                <th>USER</th>
-                <th>PR</th>
-                <th>NI</th>
-                <th>VIRT</th>
-                <th>RES</th>
-                <th>SHR</th>
-                <th>%CPU</th>
-                <th>%MEM</th>
-                <th>COMMAND</th>
+            <template id="process-header-template">
+              <tr class="table-headers">
+                <th>Num Users</th>
+                <th>Num Tasks</th>
+                <th>CPU % Free</th>
+                <th>CPU % Used</th>
+                <th>MEM Free</th>
+                <th>MEM Used</th>
+                <th>MEM Total</th>
               </tr>
               <tr>
-                <td>1</td>
-                <td>root</td>
-                <td>20</td>
-                <td>0</td>
-                <td>892</td>
-                <td>580</td>
-                <td>516</td>
-                <td>0.5</td>
-                <td>0.5</td>
-                <td>init</td>
+                <td>{{num-users}}</td>
+                <td>{{num-tasks}}</td>
+                <td>{{cpu-free}}</td>
+                <td>{{cpu-used}}</td>
+                <td>{{mem-free}}</td>
+                <td>{{mem-used}}</td>
+                <td>{{mem-total}}</td>
               </tr>
-              <tr>
-                <td>more values</td>
-                <td>more values</td>
-              </tr>
+            </template>
+            <table id="process-header">
             </table>
+            <hr>
+            <div id="process-table-container">
+              <table id="process-table">
+                <tr class="table-headers">
+                  <th>ID</th>
+                  <th>PID</th>
+                  <th>USER</th>
+                  <th>%CPU</th>
+                  <th>%MEM</th>
+                  <th>UPTIME</th>
+                  <th>COMMAND</th>
+                </tr>
+                <template id="process-item-template">
+                  <tr id="process-{{id}}" class="process-item">
+                    <td>{{id}}</td>
+                    <td>{{pid}}</td>
+                    <td>{{user}}</td>
+                    <td>{{cpu-percent}}</td>
+                    <td>{{mem-percent}}</td>
+                    <td>{{process-uptime}}</td>
+                    <td>{{process-name}}</td>
+                  </tr>
+                </template>
+              </table>
+            </div>
           </div>
         </div>
 
