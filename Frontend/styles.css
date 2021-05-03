@@ -21,8 +21,76 @@ body {
   font-family: var(--Montserrat) !important;
 }
 
+.container-fluid {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 1s linear;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
 .row {
   margin: 10px;
+}
+
+/* ------ WELCOME MESSAGE & LOADING ICON ------ */
+#welcome-message {
+  display: flex;
+  height: 90vh;
+}
+
+#welcome-message h2 {
+  margin: auto;
+  font-size: 2em;
+  color: var(--Marigold);
+  font-weight: var(--Bold);
+
+}
+
+#loading-icon {
+  display: none;
+  height: 90vh;
+}
+
+.lds-ring {
+  margin: auto;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid var(--Marigold);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: var(--Marigold) transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ------ HEADER (NAVBAR) ------ */

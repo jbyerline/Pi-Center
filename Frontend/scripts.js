@@ -13,6 +13,9 @@ $(function() {
   };
 
   if(userCredentials.username != null && userCredentials.ipAddress != null && userCredentials.port != null && userCredentials.password != null) {
+    $("#welcome-message").css("display", "none");
+    $("#loading-icon").css("display", "flex");
+
     // Single use API requests to fill the page information
     apiRequest(userCredentials, "storage");
     apiRequest(userCredentials, "hardwareInfo");
@@ -170,6 +173,10 @@ $(function() {
 
     // Highlight syntax with highlight.js
     hljs.highlightAll();
+
+    $("#loading-icon").css("display", "none");
+    $(".container-fluid").css("display", "block");
+    $(".container-fluid").addClass("visible");
   }
 
   function fillProcessData(data) {
